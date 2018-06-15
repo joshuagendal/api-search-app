@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
+import Searchbar from './Searchbar';
 const request = require('request');
 
 class App extends Component {
 	constructor(props) {
 		super(props);
 
-
-
-		
 	}
 
-	getLatitudeAndLongitudeFromZip() {
+	getLatitudeAndLongitudeFromZip(zipcode) {
 		request({
-			url: `https://maps.googleapis.com/maps/api/geocode/json?address=80204`,
+			url: `https://maps.googleapis.com/maps/api/geocode/json?address=${zipcode}`,
 			json: true
 		}, (error, response, body) => {
 			if (error) {
@@ -27,7 +25,7 @@ class App extends Component {
 	render() {
     return (
       <div className="App">
-				<button onClick={this.getLatitudeAndLongitudeFromZip}>BUTTON</button>
+        <Searchbar getLatitudeAndLongitudeFromZip={zipcode => {this.getLatitudeAndLongitudeFromZip(zipcode)}} />
       </div>
     );
   }
