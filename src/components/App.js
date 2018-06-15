@@ -5,10 +5,15 @@ const request = require('request');
 class App extends Component {
 	constructor(props) {
 		super(props);
+		
+		this.zipcodeInput = React.createRef();
+		this.handleGetLatitudeAndLongitudeFromZipSubmit = this.handleGetLatitudeAndLongitudeFromZipSubmit.bind(this);
 
 	}
 
-	getLatitudeAndLongitudeFromZip(zipcode) {
+	handleGetLatitudeAndLongitudeFromZipSubmit() {
+		console.log(this.zipcodeInput.current.value);
+		const zipcode = this.zipcodeInput.current.value;
 		request({
 			url: `https://maps.googleapis.com/maps/api/geocode/json?address=${zipcode}`,
 			json: true
@@ -21,14 +26,23 @@ class App extends Component {
 			}
 		});
 	}
-	
+
 	render() {
-    return (
-      <div className="App">
-        <Searchbar getLatitudeAndLongitudeFromZip={zipcode => {this.getLatitudeAndLongitudeFromZip(zipcode)}} />
-      </div>
-    );
-  }
+		return (
+			<div>
+				<h1>ENTER ZIP</h1>
+					<input type="text" name="zipcode" ref={this.zipcodeInput} />
+
+					<button type="submit" onClick={this.handleGetLatitudeAndLongitudeFromZipSubmit}>SUBMIT</button>
+			</div>
+		);
+	}
 }
 
 export default App;
+
+// return (
+//   <div className="App">
+//     <Searchbar getLatitudeAndLongitudeFromZip={zipcode => {this.getLatitudeAndLongitudeFromZip(zipcode)}} />
+//   </div>
+// );
